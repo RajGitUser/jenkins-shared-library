@@ -74,7 +74,7 @@ def call (Map configMap) {
                     }
                 }
             }
-            // stage('Trivy Scan') {
+            /* // stage('Trivy Scan') {
             //     steps {
             //         script {
             //             sh """
@@ -88,7 +88,7 @@ def call (Map configMap) {
             //             """
             //         }
             //     }
-            // }
+            // } */
 
         }
 
