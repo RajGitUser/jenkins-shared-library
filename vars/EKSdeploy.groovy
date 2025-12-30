@@ -8,20 +8,21 @@ def call (Map configMap) {
         }
         environment {
             COURSE = "Jenkins"
-            appVersion = ""
+            appVersion = configMap.get("appVersion")
             ACC_ID = "848332098195"
-            PROJECT = "roboshop"
-            COMPONENT = "catalogue"
+            PROJECT = configMap.get("project")
+            COMPONENT = configMap.get("component")
+            deploy_to = configMap.get("deploy_to")
             REGION = "us-east-1"
         }
         options {
             timeout(time: 30, unit: 'MINUTES') 
             disableConcurrentBuilds()
         }
-        parameters {
-            string(name: 'appVersion', description: 'Which app version you want to deploy')
-            choice(name: 'deploy_to', choices: ['dev', 'qa', 'prod'], description: 'Pick something')
-        }
+        // parameters {
+        //     string(name: 'appVersion', description: 'Which app version you want to deploy')
+        //     choice(name: 'deploy_to', choices: ['dev', 'qa', 'prod'], description: 'Pick something')
+        // }
         // This is build section
         stages {
             
@@ -30,8 +31,9 @@ def call (Map configMap) {
                     script{
                         withAWS(region:'us-east-1',credentials:'aws-cred') {
                             sh """
-                                aws eks update-kubeconfig --region ${REGION} --name ${PROJECT}-${params.deploy_to}
+                                aws eks update-kubeconfig --region ${REGION} --name ${PROJECT}-${deploy_to}
                                 kubectl get nodes
+                                echo ${deploy_to}, ${appVersion}
                             """
                         }
                     }
