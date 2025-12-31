@@ -9,6 +9,7 @@ def call (Map configMap){
         }
         environment {
             COURSE = "Jenkins"
+            appVersion = ""
             ACC_ID = "848332098195"
             PROJECT = configMap.get("project")
             COMPONENT = configMap.get("component")
@@ -24,7 +25,7 @@ def call (Map configMap){
                     script{
                         def pom = readMavenPom file: 'pom.xml'
                         env.APP_VERSION = pom.version
-                        echo "App Version: ${env.APP_VERSION}"
+                        echo "App Version: ${appVersion}"
                     }
                 }
             }
